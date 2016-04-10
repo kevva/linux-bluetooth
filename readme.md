@@ -13,9 +13,9 @@ $ npm install --save linux-bluetooth
 ## Usage
 
 ```js
-var linuxBluetooth = require('linux-bluetooth');
+const linuxBluetooth = require('linux-bluetooth');
 
-linuxBluetooth(function (err, state) {
+linuxBluetooth().then(state => {
 	console.log(state);
 	//=> true
 });

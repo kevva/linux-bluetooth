@@ -1,18 +1,10 @@
 'use strict';
-var execFile = require('child_process').execFile;
+const execa = require('execa');
 
-module.exports = function (cb) {
+module.exports = () => {
 	if (process.platform !== 'linux') {
-		throw new TypeError('Only Linux systems are supported');
+		return Promise.reject(new TypeError('Only Linux systems are supported'));
 	}
 
-	execFile('hcitool', ['dev'], function (err, stdout) {
-		if (err) {
-			cb(err);
-			return;
-		}
-
-		stdout = stdout.trim().replace('Devices:', '');
-		cb(null, stdout.length ? true : false);
-	});
+	return execa('hcitool', ['dev']).then(res => res.stdout.trim().replace('Devices:', '').length !== 0);
 };
